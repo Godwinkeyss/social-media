@@ -2,11 +2,12 @@ const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const authRouter = require('./routes/auth.js')
+const userRouter = require('./routes/userRoutes.js')
 const app = express();
 
 dotenv.config();
 
-app.use(express.json());
+
 
 mongoose
   .connect(process.env.Mongo_Db)
@@ -16,8 +17,10 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-
-  app.use('/api/users',authRouter)
+  app.use(express.json());
+  
+  app.use('/api/auth',authRouter)
+  app.use('/api/users',userRouter)
 
 const PORT = 5000;
 
