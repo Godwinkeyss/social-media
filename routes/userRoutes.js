@@ -3,6 +3,18 @@ const User = require('../models/User.js')
 const router = express.Router()
 
 
+// delete user
+router.delete('/:id',async(req,res)=>{
+   const id = req.params.id
+   const user = await User.findByIdAndDelete(id)
+   if(!user){
+    res.status(403).json("You can delete only your account")
+   }else{
+    res.status(200).json('You have successfully deleted this user')
+   }
+
+})
+
 // get all user
 router.get('/', async(req,res)=>{
    try{
@@ -23,6 +35,7 @@ router.get('/:id', async(req,res)=>{
     if(!user){
         res.status(404).json('no user found')
     }else{
+
         const { password, updatedAt, ...other } = user._doc;
         res.status(200).json(other)
     }
